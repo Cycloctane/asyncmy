@@ -1,5 +1,5 @@
 [tool.poetry]
-authors = ["long2ice <long2ice@gmail.com>"]
+authors = ["long2ice <long2ice@gmail.com>", "Cycloctane <Octane-vs@outlook.com>"]
 description = "A fast asyncio MySQL driver"
 documentation = "https://github.com/long2ice/asyncmy"
 homepage = "https://github.com/long2ice/asyncmy"
@@ -11,8 +11,8 @@ packages = [
     { include = "asyncmy" },
 ]
 readme = "README.md"
-repository = "https://github.com/long2ice/asyncmy.git"
-version = "0.2.10"
+repository = "https://github.com/Cycloctane/asyncmy.git"
+version = "0.2.10a1"
 
 [tool.poetry.dependencies]
 python = "^3.8"
