@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-13, macos-14 ]
+        os: [ubuntu-latest, windows-latest, macos-13, macos-latest]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,7 +17,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         env:
-          CIBW_SKIP: "pp* cp36-* cp37-* *-win32 *-manylinux_i686 *-musllinux_i686"
+          CIBW_SKIP: "cp36-* cp37-* pp36-* pp37-*"
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
@@ -33,16 +33,18 @@ jobs:
         run: poetry build
       - uses: actions/upload-artifact@v4
         with:
+          name: cibw-sdist
           path: dist/*.tar.gz
   upload:
     runs-on: ubuntu-latest
-    needs: [ build_wheels, build_sdist ]
+    needs: [build_wheels, build_sdist]
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: artifact
+          pattern: cibw-*
           path: dist
-      - uses: pypa/gh-action-pypi-publish@v1.6.4
+          merge-multiple: true
+      - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.pypi_password }}
